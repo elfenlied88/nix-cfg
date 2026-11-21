@@ -7,13 +7,23 @@
 }:
 
 let 
-  user = "kys";
+  userConfig = import ./user-config.nix;
+  user = userConfig.username;
 in
 {
   imports =
     [
       ./hardware-configuration.nix
+      <home-manager/nixos>
     ];
+
+  home-manager = {
+    useGlobalPkgs = true;                 # use the system's nixpkgs
+    useUserPackages = true;               # install user packages into the user profile
+    backupFileExtension = "hm.bak";       # existing files are renamed to *.hm.bak, not overwritten
+    extraSpecialArgs = { inherit userConfig; };   # makes `userConfig` available in home.nix
+    users.${user} = import ./home.nix;
+  };
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
@@ -74,12 +84,17 @@ in
     vimAlias = true;
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.iosevka-term
+  ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "thinkpad-x395"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -116,7 +131,7 @@ in
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us, ua";
+    layout = "us,ua";
     variant = "";
     options = "grp:caps_toggle";
   };
@@ -146,7 +161,7 @@ in
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     # basics
-    git git-lfs gh curl wget unzip zip file tree ripgrep fd jq htop
+    git git-lfs gh curl wget unzip zip file tree ripgrep fd jq htop tree-sitter
 
     # nix helpers
     nixd nixfmt-rfc-style nix-tree nvd
