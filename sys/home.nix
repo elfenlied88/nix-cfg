@@ -15,6 +15,7 @@ in
     ../pkg/zed.nix
     ../pkg/ghidra.nix
     ../pkg/rust.nix
+    ../pkg/esp.nix
   ];
 
   home = {
