@@ -40,8 +40,11 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  programs.zsh.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "kys";
     extraGroups = [ 
@@ -56,6 +59,16 @@ in
       kdePackages.kate
     #  thunderbird
     ];
+  };
+
+  services.fwupd.enable = true;
+  zramSwap.enable = true;
+  
+  programs.wireshark.enable = true;
+  
+  programs.nh = {
+    enable = true;
+    flake = null;
   };
 
   users.groups.plugdev = { };
@@ -123,7 +136,7 @@ in
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  services.xserver.enable = false;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -148,7 +161,7 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
+    jack.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -164,7 +177,7 @@ in
     git git-lfs gh curl wget unzip zip file tree ripgrep fd jq htop tree-sitter
 
     # nix helpers
-    nixd nixfmt-rfc-style nix-tree nvd
+    nixd pkgs.nixfmt nix-tree nvd
 
     # C/C++
     gcc gnumake cmake ninja meson pkg-config gdb lldb clang-tools bear
@@ -178,6 +191,13 @@ in
 
     # AI coding agents
     opencode claude-code
+
+    # Other usefull stuff
+    usbutils pciutils lshw
+    strace ltrace binutils
+    smartmontools
+    tcpdump nmap socat
+    p7zip unrar
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
