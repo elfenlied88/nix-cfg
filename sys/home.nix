@@ -89,4 +89,6 @@ in
 
   xdg.configFile."nvim".source =
     config.lib.file.mkOutOfStoreSymlink "/etc/nixos/cfg/nvim";
+  home.file."devenvs".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nixos/cfg/devenvs";
 }
