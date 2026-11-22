@@ -11,6 +11,12 @@ let
 
 in
 {
+  imports = [
+    ../pkg/zed.nix
+    ../pkg/ghidra.nix
+    ../pkg/rust.nix
+  ];
+
   home = {
     username = user;
     homeDirectory = "/home/${user}";
