@@ -10,3 +10,4 @@ result-*
 
 # Ignore shit
 lazy-lock.json
+flake.lock
