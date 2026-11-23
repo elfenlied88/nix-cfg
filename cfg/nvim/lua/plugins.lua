@@ -125,6 +125,11 @@ require("lazy").setup({
 				"yaml",
 				"markdown",
 				"bash",
+				"nix",
+				"python",
+				"regex",
+				"diff",
+				"gitcommit",
 			})
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(args)
@@ -195,4 +200,33 @@ require("lazy").setup({
 			{ "<leader>sd", "<cmd>Telescope diagnostics<CR>", desc = "Diagnostics" },
 		},
 	},
+	{
+		"folke/trouble.nvim",
+		cmd = "Trouble",
+		opts = {},
+		keys = {
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<CR>", desc = "Diagnostics (project)" },
+			{ "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>", desc = "Diagnostics (buffer)" },
+			{ "<leader>xs", "<cmd>Trouble symbols toggle focus=false<CR>", desc = "Symbols" },
+			{ "<leader>xr", "<cmd>Trouble lsp toggle focus=false win.position=right<CR>", desc = "LSP references" },
+			{ "<leader>xq", "<cmd>Trouble qflist toggle<CR>", desc = "Quickfix list" },
+		},
+	},
+	{
+		"Civitasv/cmake-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = { "c", "cpp", "cmake" },
+		opts = {
+			cmake_build_directory = "build",
+			cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" },
+		},
+		keys = {
+			{ "<leader>mg", "<cmd>CMakeGenerate<CR>", desc = "CMake generate" },
+			{ "<leader>mb", "<cmd>CMakeBuild<CR>", desc = "CMake build" },
+			{ "<leader>mr", "<cmd>CMakeRun<CR>", desc = "CMake run" },
+			{ "<leader>mt", "<cmd>CMakeSelectBuildType<CR>", desc = "CMake build type" },
+		},
+	},
+	{ "mrcjkb/rustaceanvim", lazy = false }, -- pin its major version as its README says
+	{ "saecki/crates.nvim", event = "BufRead Cargo.toml", opts = {} },
 })

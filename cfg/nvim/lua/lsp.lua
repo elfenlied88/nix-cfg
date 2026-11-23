@@ -34,3 +34,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		m("<leader>cr", vim.lsp.buf.rename, "Rename symbol")
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "rust",
+	callback = function(ev)
+		local function m(lhs, cmd, desc)
+			vim.keymap.set("n", lhs, function()
+				vim.cmd.RustLsp(cmd)
+			end, { buffer = ev.buf, desc = desc })
+		end
+		m("<leader>rr", "runnables", "Rust runnables")
+		m("<leader>rt", "testables", "Rust tests")
+		m("<leader>re", "expandMacro", "Expand macro")
+		m("<leader>ca", "codeAction", "Rust code action")
+	end,
+})
