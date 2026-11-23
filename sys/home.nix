@@ -85,6 +85,17 @@ in
         font-size = 12;
         theme = "Catppuccin Mocha";
       };
+      keybind = [ 
+        "ctrl+alt+1=goto_tab:1" 
+        "ctrl+alt+2=goto_tab:2" 
+        "ctrl+alt+1=goto_tab:3" 
+        "ctrl+alt+2=goto_tab:4" 
+        "ctrl+alt+1=goto_tab:5" 
+        "ctrl+alt+2=goto_tab:6" 
+        "ctrl+alt+1=goto_tab:7" 
+        "ctrl+alt+2=goto_tab:8" 
+        "ctrl+alt+1=goto_tab:9" 
+      ];
     };
 
   xdg.configFile."nvim".source =

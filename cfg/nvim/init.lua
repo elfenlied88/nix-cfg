@@ -45,3 +45,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("plugins")
 require("keymaps")
+
+-- Refresh git status when nvim regain focus when leave a terminal
+vim.api.nvim_create_autocmd({ "FocusGained", "TermLeave" }, {
+  group = vim.api.nvim_create_augroup("UserNeotreeRefresh", { clear = true }),
+  callback = function()
+    local ok_ev, events = pcall(require, "neo-tree.events")
+    if ok_ev then
+      events.fire_event(events.GIT_EVENT)
+    end
+  end,
+})
