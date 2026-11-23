@@ -30,6 +30,10 @@ in
       tmux
       ncdu tldr hexyl
       dive
+      lua-language-server
+      bash-language-server
+      taplo
+      stylua
       (rpi-imager.overrideAttrs (old: {
         postPatch = (old.postPatch or "") + ''
           sed -i '0,/^import QtQuick$/s//import QtQuick\nimport QtQuick.Controls.Material/' src/wizard/WritingStep.qml
