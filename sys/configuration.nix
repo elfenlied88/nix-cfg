@@ -1,34 +1,40 @@
 # /etc/nixos/sys/configuration.nix
 
-{ lib,
-  config, 
-  pkgs, 
+{
+  lib,
+  config,
+  pkgs,
   ...
 }:
 
-let 
+let
   userConfig = import ./user-config.nix;
   user = userConfig.username;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      <home-manager/nixos>
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    <home-manager/nixos>
+  ];
 
   home-manager = {
-    useGlobalPkgs = true;                 # use the system's nixpkgs
-    useUserPackages = true;               # install user packages into the user profile
-    backupFileExtension = "hm.bak";       # existing files are renamed to *.hm.bak, not overwritten
-    extraSpecialArgs = { inherit userConfig; };   # makes `userConfig` available in home.nix
+    useGlobalPkgs = true; # use the system's nixpkgs
+    useUserPackages = true; # install user packages into the user profile
+    backupFileExtension = "hm.bak"; # existing files are renamed to *.hm.bak, not overwritten
+    extraSpecialArgs = { inherit userConfig; }; # makes `userConfig` available in home.nix
     users.${user} = import ./home.nix;
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
-    trusted-users = [ "root" user];
+    trusted-users = [
+      "root"
+      user
+    ];
   };
 
   nix.gc = {
@@ -36,7 +42,7 @@ in
     dates = "weekly";
     options = "--delete-older-than 14d";
   };
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -47,8 +53,9 @@ in
     shell = pkgs.zsh;
     isNormalUser = true;
     description = "kys";
-    extraGroups = [ 
-      "networkmanager" "wheel" 
+    extraGroups = [
+      "networkmanager"
+      "wheel"
       "docker"
       "dialout"
       "plugdev"
@@ -57,15 +64,15 @@ in
     ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
   services.fwupd.enable = true;
   zramSwap.enable = true;
-  
+
   programs.wireshark.enable = true;
-  
+
   programs.nh = {
     enable = true;
     flake = null;
@@ -84,7 +91,13 @@ in
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
-      stdenv.cc.cc.lib zlib openssl libusb1 systemd ncurses libffi
+      stdenv.cc.cc.lib
+      zlib
+      openssl
+      libusb1
+      systemd
+      ncurses
+      libffi
     ];
   };
 
@@ -174,30 +187,69 @@ in
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     # basics
-    git git-lfs gh curl wget unzip zip file tree ripgrep fd jq htop tree-sitter
+    git
+    git-lfs
+    gh
+    curl
+    wget
+    unzip
+    zip
+    file
+    tree
+    ripgrep
+    fd
+    jq
+    htop
+    tree-sitter
 
     # nix helpers
-    nixd pkgs.nixfmt nix-tree nvd
+    nixd
+    pkgs.nixfmt
+    nix-tree
+    nvd
 
     # C/C++
-    gcc gnumake cmake ninja meson pkg-config gdb lldb clang-tools bear
-    valgrind ccache
+    gcc
+    gnumake
+    cmake
+    ninja
+    meson
+    pkg-config
+    gdb
+    lldb
+    clang-tools
+    bear
+    valgrind
+    ccache
 
     # Python
-    python3 uv ruff pyright
+    python3
+    uv
+    ruff
+    pyright
 
     # KVM, Docker
-    qemu docker-compose lazydocker
+    qemu
+    docker-compose
+    lazydocker
 
     # AI coding agents
-    opencode claude-code
+    opencode
+    claude-code
 
     # Other usefull stuff
-    usbutils pciutils lshw
-    strace ltrace binutils
+    usbutils
+    pciutils
+    lshw
+    strace
+    ltrace
+    binutils
     smartmontools
-    tcpdump nmap socat
-    p7zip unrar
+    tcpdump
+    nmap
+    socat
+    p7zip
+    unrar
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
