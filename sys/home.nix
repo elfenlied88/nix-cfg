@@ -16,6 +16,8 @@ in
     ../pkg/ghidra.nix
     ../pkg/rust.nix
     ../pkg/esp.nix
+    ../pkg/stm32.nix
+    ../pkg/kicad.nix
   ];
 
   home = {

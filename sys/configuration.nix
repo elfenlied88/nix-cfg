@@ -68,6 +68,11 @@ in
     ];
   };
 
+  services.udev.packages = with pkgs; [
+    stlink
+    openocd
+  ];
+
   services.fwupd.enable = true;
   zramSwap.enable = true;
 
@@ -128,6 +133,10 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.insertNameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Kyiv";
